@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/node:19.8.1
+    working_directory: ~/app
+    environment:
+      name: deploy
+      MY_VAR: "sample-value"
+      SAMPLE_VAR: "another-value"
+    steps:
+      - checkout
+      - run: echo $MY_VAR
+      - run: echo --version
+      - run: npm install
