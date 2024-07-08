@@ -1,32 +1,24 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:node:.
+# .circleci/config.yml file
 version: 2.1
-orbs:
-  node: circleci/node@5
+
 jobs:
-  test-node:
-    # Install node dependencies and run tests
-    executor: node/default
+  build: # job name
+    docker: # executor type
+      - image: cimg/base:current # Docker image that installs Docker and has Git,
+    working_directory: ~/app
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
+      - setup_remote_docker:
+          version: 20.10.14
       - run:
-          name: Run tests
-          command: echo \"No test specified in package.json\"
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy to users
+          name: Install dependencies
+          command: echo "No need to install anything. \n Just build and push the Docker image."
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
-workflows:
-  build-and-test:
-    jobs:
-      - test-node
-    # - deploy:
-    #     requires:
-    #       - test-node
+          name: Build and push Docker image
+          command: |
+            echo "Inside the Build and push Docker image step"
+            docker --version # print the version for logging
+            docker build -t "$DOCKER_USERNAME"/sample-express-app .        
+            docker tag "$DOCKER_USERNAME"/sample-express-app "$DOCKER_USERNAME"/sample-express-app:1.0.0
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker push "$DOCKER_USERNAME"/sample-express-app:1.0.0
