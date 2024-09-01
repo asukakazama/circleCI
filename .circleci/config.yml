@@ -1,0 +1,15 @@
+# .circleci/config.yml file
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/node:19.8.1
+    working_directory: ~/app
+    environment:
+      MY_VAR: "my-value"
+    steps:
+      - checkout
+      - run: echo $MY_VAR
+      - run: node --version
+      - run: npm install
