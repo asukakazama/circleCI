@@ -13,7 +13,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - run: echo "this is the test job 123"
+      - run: echo "this is the test job hihi"
 
 # Orchestrate our job run sequence
 workflows:
